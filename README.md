@@ -11,5 +11,5 @@ https://github.com/CSSEGISandData/COVID-19
   - Spring Boot
   - Thymleaf
   - HTML, CSS, Bootstap
-  - Apache Mave
+  - Apache Maven
   - Heroku
