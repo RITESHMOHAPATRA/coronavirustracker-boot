@@ -1,6 +1,7 @@
 package com.raj.coronavirustracker.services;
 
-import com.raj.coronavirustracker.models.LocationStats;
+import com.raj.coronavirustracker.models.LocationPoints;
+//import com.raj.coronavirustracker.models.LocationStats;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -34,18 +35,18 @@ public class CoronaVirusDataService {
     }
 
     private int totalCase;
-    public TreeSet<LocationStats> getAllStats() {
+    public TreeSet<LocationPoints> getAllStats() {
         return allStats;
     }
 
-    private TreeSet<LocationStats> allStats = new TreeSet<>();
+    private TreeSet<LocationPoints> allStats = new TreeSet<>();
 
     @PostConstruct
     @Scheduled(cron = "1 * * * * *")
     public void fetchVirusData() throws IOException, InterruptedException {
-        TreeSet<LocationStats> newStat = new TreeSet<>(new Comparator<LocationStats>() {
+        TreeSet<LocationPoints> newStat = new TreeSet<>(new Comparator<LocationPoints>() {
             @Override
-            public int compare(LocationStats o1, LocationStats o2) {
+            public int compare(LocationPoints o1, LocationPoints o2) {
                 return o1.getCountry().compareTo(o2.getCountry());
             }
         });
@@ -63,7 +64,7 @@ public class CoronaVirusDataService {
             if(record.get("Country/Region").equals("India")){
                 this.india = Integer.parseInt(record.get(record.size()-1));
             }
-            LocationStats stat = new LocationStats(record.get("Province/State"),record.get("Country/Region")
+            LocationPoints stat = new LocationPoints(record.get("Province/State"),record.get("Country/Region")
                     ,Integer.parseInt(record.get(record.size()-1)));
             stat.setDiffFromPrevCase(Integer.parseInt(record.get(record.size()-1)) - Integer.parseInt(record.get(record.size()-2)));
             newStat.add(stat);
